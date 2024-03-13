@@ -1,0 +1,58 @@
+{
+  "name": "gcloud-main",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@fontsource/roboto": "^5.0.8",
+    "@mui/icons-material": "^5.15.9",
+    "@mui/material": "^5.15.9",
+    "@mui/x-data-grid": "^6.19.6",
+    "@reduxjs/toolkit": "^2.1.0",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.24",
+    "@types/react": "^18.2.63",
+    "@types/react-dom": "^18.2.20",
+    "formik": "^2.4.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^9.1.0",
+    "react-router-dom": "^6.22.2",
+    "react-scripts": "5.0.1",
+    "swiper": "^11.0.6",
+    "typescript": "^5.3.3",
+    "web-vitals": "^2.1.4",
+    "yup": "^1.4.0",
+    "zod": "^3.22.4"
+  },
+  "scripts": {
+    "start": "node ./scripts/start.js",
+    "build": "node ./scripts/build.js",
+    "start-old": "react-scripts start",
+    "build-old": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

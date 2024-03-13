@@ -1,0 +1,31 @@
+.gcloud-navigation {
+    position: relative;
+    max-width: 300px;
+    padding: 20px;
+}
+
+.gcloud-content {
+    min-height: 100vh;
+    background-color: #f8f8f8;
+    padding: 20px;
+}
+
+.file-thumbnail {
+    display: block;
+    margin-bottom: 20px;
+    border-radius: 7px;
+    width: 280px;
+    height: 400px;
+    object-fit: cover;
+}
+
+.logo-wrapper {
+    position: absolute;
+    left: 130%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.logo-wrapper img {
+    max-width: 330px;
+}
