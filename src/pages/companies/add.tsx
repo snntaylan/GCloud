@@ -18,12 +18,14 @@ import { Link, useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { Formik, useFormik } from "formik"
 // import thumbnail from "../../assets/images/placeholder.jpg";
+import { useCompanyStore } from "gstore/store";
+import { CoPresentOutlined } from "@mui/icons-material"
 
 interface ICompaniesAddProps { }
 
 interface IFormikValues {
-  company_name: string | null;
-  data_name: string;
+  companyName: string | null;
+  dataName: string;
   surname: string;
   address: string;
   country: string;
@@ -47,12 +49,13 @@ interface IFormikValues {
 
 const CompaniesAdd: React.FunctionComponent<ICompaniesAddProps> = () => {
   const navigate = useNavigate()
+  const { addCompany, companies } = useCompanyStore();
 
   const { values, isSubmitting, errors, touched, handleSubmit, getFieldProps, setFieldValue } =
     useFormik<IFormikValues>({
       validationSchema: Yup.object().shape({
-        company_name: Yup.string().required("This field is required!"),
-        data_name: Yup.string().required("This field is required!"),
+        companyName: Yup.string().required("This field is required!"),
+        dataName: Yup.string().required("This field is required!"),
         surname: Yup.string().required("This field is required!"),
         address: Yup.string(),
         country: Yup.string(),
@@ -74,8 +77,8 @@ const CompaniesAdd: React.FunctionComponent<ICompaniesAddProps> = () => {
         value_file: Yup.mixed(),
       }),
       initialValues: {
-        company_name: "",
-        data_name: "",
+        companyName: "",
+        dataName: "",
         surname: "",
         address: "",
         country: "",
@@ -99,13 +102,21 @@ const CompaniesAdd: React.FunctionComponent<ICompaniesAddProps> = () => {
       onSubmit: (values, actions) => {
         actions.setSubmitting(true)
         console.log(values);
-        navigate("/auth/frimex/login");
+        addCompany({ id: getRandomId(), ...values });
+        navigate("/dashboard/companies");
       }
     })
 
-  const fileURL = () => {
-    console.log(values.value_file)
+  const fileURL = React.useMemo(() => {
     return values.value_file?.[0] ? URL.createObjectURL(values.value_file?.[0]) : "/placeholder.jpg";
+  }, [values.value_file])
+
+  // const fileURL = () => {
+  //   console.log(values.value_file)
+  // }
+
+  const getRandomId = () => {
+    return Math.round(Math.random() * 10000);
   }
 
   return (
@@ -123,17 +134,17 @@ const CompaniesAdd: React.FunctionComponent<ICompaniesAddProps> = () => {
               </Typography>
               <Stack direction="column" spacing={2}>
                 <TextField
-                  {...getFieldProps("company_name")}
+                  {...getFieldProps("companyName")}
                   label={"Şirket Adı"}
-                  error={Boolean(touched.company_name && errors.company_name)}
-                  helperText={touched.company_name && errors.company_name}
+                  error={Boolean(touched.companyName && errors.companyName)}
+                  helperText={touched.companyName && errors.companyName}
                 />
 
                 <TextField
-                  {...getFieldProps("data_name")}
+                  {...getFieldProps("dataName")}
                   label={"Veritabanı Adı"}
-                  error={Boolean(touched.data_name && errors.data_name)}
-                  helperText={touched.data_name && errors.data_name}
+                  error={Boolean(touched.dataName && errors.dataName)}
+                  helperText={touched.dataName && errors.dataName}
                 />
 
                 <TextField
@@ -244,7 +255,7 @@ const CompaniesAdd: React.FunctionComponent<ICompaniesAddProps> = () => {
               </Stack>
             </Grid>
             <Grid item xs={6} md={4}>
-              <img src={fileURL()} alt="File Image" className="file-thumbnail" />
+              <img src={fileURL} alt="File Image" className="file-thumbnail" />
               <Button
                 variant="outlined"
                 component="label"

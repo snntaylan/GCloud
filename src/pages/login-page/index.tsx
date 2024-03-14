@@ -21,7 +21,7 @@ import { Link, useNavigate, useParams } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { useFormik } from "formik"
 import { companies } from "mock-data/companylogos"
-import {useStore, useAuthStore} from "gstore/store";
+import {useAuthStore} from "gstore/store";
 
 
 interface ILoginPageProps { }
@@ -36,7 +36,6 @@ const LoginPage: React.FunctionComponent<ILoginPageProps> = () => {
   const theme = useTheme<Theme>()
   const navigate = useNavigate()
   const { companyName } = useParams();
-  const { setAuthentication } = useStore();
   const authStore = useAuthStore();
 
 
@@ -54,11 +53,6 @@ const LoginPage: React.FunctionComponent<ILoginPageProps> = () => {
       },
       onSubmit: (values, actions) => {
         actions.setSubmitting(true);
-        setAuthentication({
-          ...values,
-          name: "Sinan",
-          role: "Developer",
-        }, "nHQm5qDFgmhmK9A53Z+xnw==");
         authStore.setAuthentication({
           ...values,
           name: "Sinan",
