@@ -59,9 +59,9 @@ const LoginPage: React.FunctionComponent<ILoginPageProps> = () => {
           role: "Developer",
         }, "nHQm5qDFgmhmK9A53Z+xnw==");
         if (values.company) {
-          navigate("/dashboard/modules");
+          navigate(`/gcloud/${values.company}/home`);
         } else {
-          navigate("/dashboard/companies");
+          navigate("/gcloud/companies");
         }
       }
     })
@@ -72,7 +72,7 @@ const LoginPage: React.FunctionComponent<ILoginPageProps> = () => {
   
   React.useEffect(() => {
     if (values.company) {
-      navigate(`/auth/${values.company}/login`)
+      navigate(`/gcloud/${values.company}/login`)
     }
   }, [values.company])
 

@@ -31,7 +31,7 @@ const RouterConfig = () => {
           element={
             <LazyRoute
               element={
-                <Navigate to={isAuthenticated ? "/dashboard/companies" : "/auth/login"} />
+                <Navigate to={isAuthenticated ? "/gcloud/companies" : "/auth/login"} />
               }
             />
           }
@@ -41,23 +41,27 @@ const RouterConfig = () => {
       <Route
         element={<LazyRoute element={<PrivateRoute element={<Outlet />} />} />}
       >
-        <Route path={"/auth/:companyName/login"} element={<LazyRoute element={<Login />} />} />
+        <Route path={"/gcloud/:companyName/login"} element={<LazyRoute element={<Login />} />} />
         <Route
-          path={"/dashboard"}
+          path={"/gcloud"}
           element={<LazyRoute element={<LoggedInLayout />} />}
         >
           {/* <Route path={"/dashboard/analytics"} element={<LazyRoute element={<Login />} />}></Route> */}
-          <Route path={"/dashboard/companies"} element={<LazyRoute element={<CompaniesList />} />}></Route>
-          <Route path={"/dashboard/companies/add"} element={<LazyRoute element={<CompaniesAdd />} />}></Route>
-          <Route path={"/dashboard/modules"} element={<LazyRoute element={<ModulesList />} />}></Route>
+          <Route path={"/gcloud/companies"} element={<LazyRoute element={<CompaniesList />} />}></Route>
+          <Route path={"/gcloud/companies/add"} element={<LazyRoute element={<CompaniesAdd />} />}></Route>
+          <Route path={"/gcloud/companies/edit/:companyId"} element={<LazyRoute element={<CompaniesAdd />} />}></Route>
+          <Route path={"/gcloud/:companyName/home"} element={<LazyRoute element={<ModulesList />} />}></Route>
+          
+          <Route path={"/gcloud/:companyName/gcrm"} element={<LazyRoute element={<GCRModule />} />}></Route>
+          <Route path={"/gcloud/:companyName/gcharge"} element={<LazyRoute element={<GChargeModule />} />}></Route>
         </Route>
-        <Route
+        {/* <Route
           path={"/module"}
           element={<LazyRoute element={<LoggedInLayout />} />}
         >
           <Route path={"/module/gcharge/init"} element={<LazyRoute element={<GChargeModule />} />}></Route>
           <Route path={"/module/gcrm/init"} element={<LazyRoute element={<GCRModule />} />}></Route>
-        </Route>
+        </Route> */}
 
       </Route>
     </Routes>

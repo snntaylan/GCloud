@@ -25,8 +25,8 @@ export const companies = [
     },
     {
         id: "5",
-        name: "Wavetec",
-        slug: "wavetec",
+        name: "Olcer",
+        slug: "olcer",
         logo: "/images/companies/frimex.png",
     }
 ]

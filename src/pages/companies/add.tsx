@@ -11,7 +11,7 @@ import {
   Typography,
   useTheme
 } from "@mui/material"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 // import { authLogin, authRegister } from "@/redux/auth/services"
 
 // import { LoadingButton } from "@mui/lab"
@@ -20,6 +20,8 @@ import { Formik, useFormik } from "formik"
 // import thumbnail from "../../assets/images/placeholder.jpg";
 import { useCompanyStore } from "gstore/store";
 import { CoPresentOutlined } from "@mui/icons-material"
+import { getRandomId } from "../utils/common"
+import { getCompanyById } from "api/company/companyList"
 
 interface ICompaniesAddProps { }
 
@@ -49,9 +51,20 @@ interface IFormikValues {
 
 const CompaniesAdd: React.FunctionComponent<ICompaniesAddProps> = () => {
   const navigate = useNavigate()
-  const { addCompany, companies } = useCompanyStore();
+  const { addCompany, updateCompanyById } = useCompanyStore();
+  const { companyId } = useParams();
+  const [companyDetail, setCompanyDetail] = React.useState(null);
 
-  const { values, isSubmitting, errors, touched, handleSubmit, getFieldProps, setFieldValue } =
+  React.useEffect(() => {
+    if (companyId) {
+      getCompanyById(companyId)?.then((company: any) => {
+        setCompanyDetail(company);
+        setValues(company);
+      })
+    }
+  }, [companyId])
+
+  const { values, isSubmitting, errors, touched, handleSubmit, getFieldProps, setFieldValue, setValues } =
     useFormik<IFormikValues>({
       validationSchema: Yup.object().shape({
         companyName: Yup.string().required("This field is required!"),
@@ -101,23 +114,21 @@ const CompaniesAdd: React.FunctionComponent<ICompaniesAddProps> = () => {
       },
       onSubmit: (values, actions) => {
         actions.setSubmitting(true)
-        console.log(values);
-        addCompany({ id: getRandomId(), ...values });
-        navigate("/dashboard/companies");
+
+        if (isEditPage) updateCompanyById(values, companyId); 
+        else addCompany({ id: getRandomId(), ...values });
+
+        navigate("/gcloud/companies");
       }
     })
 
   const fileURL = React.useMemo(() => {
     return values.value_file?.[0] ? URL.createObjectURL(values.value_file?.[0]) : "/placeholder.jpg";
   }, [values.value_file])
-
-  // const fileURL = () => {
-  //   console.log(values.value_file)
-  // }
-
-  const getRandomId = () => {
-    return Math.round(Math.random() * 10000);
-  }
+  
+  const isEditPage = React.useMemo(() => {
+    return companyId ? true : false;
+  }, [companyId])
 
   return (
     <Box>

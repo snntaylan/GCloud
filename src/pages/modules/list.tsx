@@ -23,7 +23,7 @@ const ModulesList: React.FunctionComponent<IModulesListProps> = () => {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Link to={"/module/gcrm/init"}>
+                <Link to={"/gcloud/olcer/gcrm"}>
                   <Button size="small">Select</Button>
                 </Link>
               </CardActions>

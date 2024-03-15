@@ -17,18 +17,20 @@ import {
 import { Link, useNavigate } from "react-router-dom"
 import BusinessIcon from '@mui/icons-material/Business';
 import ListIcon from '@mui/icons-material/List';
-import {useStore} from "gstore/store";
+import {useStore, useLayoutStore} from "gstore/store";
 
 interface ISideNavigationProps { }
 
 const SideNavigation: React.FunctionComponent<ISideNavigationProps> = () => {
+  // const [navigationConfig, setNavConfig] = React.useState([]);
   const theme = useTheme<Theme>()
   const navigate = useNavigate()
   const store = useStore();
+  const { navItems } = useLayoutStore();
   
-  console.log("Store ==>", store);
+  console.log("Store ==>", store, navItems);
 
-  const navigationConfig = [
+  const navList = [
     {
       id: 'parentcompany',
       title: 'Platform Şirketleri',
@@ -41,18 +43,22 @@ const SideNavigation: React.FunctionComponent<ISideNavigationProps> = () => {
           title: 'Şirketler',
           type: 'item',
           icon: <ListIcon />,
-          url: '/dashboard/companies'
+          url: '/gcloud/companies'
         },
         {
           id: 'parentcompany.license',
           title: 'Lisanslar',
           type: 'item',
           icon: <ListIcon />,
-          url: '/dashboard/companies/add'
+          url: '/gcloud/companies/add'
         },
       ]
     }
   ];
+
+  const navigationConfig = React.useMemo(() => {
+    return navItems.length ? navItems : navList;
+  }, [navItems])
 
   const GCloudListItem = ({ navItem }: any) => {
     return (
@@ -70,13 +76,13 @@ const SideNavigation: React.FunctionComponent<ISideNavigationProps> = () => {
   return (
     <Box className="gcloud-navigation">
       <List>
-        {navigationConfig.map((navItem, index) => (
+        {navigationConfig.map((navItem: any, index: any) => (
           <>
             <GCloudListItem navItem={navItem} />
             {
               navItem.children.length > 0 && (
                 <List sx={{ paddingLeft: 3 }}>
-                  {navItem.children.map((navChildItem, index) => (
+                  {navItem.children.map((navChildItem: any, index: any) => (
                     <GCloudListItem navItem={navChildItem} />
                   ))}
                 </List>

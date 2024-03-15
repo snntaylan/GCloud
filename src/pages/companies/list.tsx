@@ -1,16 +1,19 @@
 import * as React from "react"
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { Box, Button, ButtonGroup } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { companyList } from "../../api/company/companyList";
 import { useCompanyStore } from "gstore/store";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
 interface ICompaniesListProps { }
 
 const CompaniesList: React.FunctionComponent<ICompaniesListProps> = () => {
 
-  const { setCompanies, companies } = useCompanyStore();
+  const navigate = useNavigate()
+  const { setCompanies, companies, deleteCompanyById } = useCompanyStore();
   const [isLoading, setLoading] = React.useState(true);
   const [rows, setRows] = React.useState([]);
 
@@ -46,20 +49,43 @@ const CompaniesList: React.FunctionComponent<ICompaniesListProps> = () => {
       sortable: false,
       width: 160,
     },
-    // {
-    //   field: 'company',
-    //   headerName: 'Login as',
-    //   // description: 'This column has a value getter and is not sortable.',
-    //   sortable: false,
-    //   width: 160,
-    //   renderCell: (params) => {
-    //     return <Link to={`/auth/${params.row.company}/login`}><button>Login</button></Link>
-    //   },
-    //   // valueFormatter: (params: GridValueGetterParams) => {
-    //   //   return <button>{params.row.company}</button>
-    //   // },
-    // },
+    {
+      field: 'action',
+      headerName: 'Action',
+      // description: 'This column has a value getter and is not sortable.',
+      sortable: false,
+      width: 160,
+      renderCell: (params) => {
+        return [
+          <GridActionsCellItem
+            icon={<EditIcon />}
+            label="Edit"
+            className="textPrimary"
+            onClick={handleEditClick(params.row.id)}
+            color="inherit"
+          />,
+          <GridActionsCellItem
+            icon={<DeleteIcon />}
+            label="Delete"
+            onClick={handleDeleteClick(params.row.id)}
+            color="inherit"
+          />
+        ]
+      },
+    },
   ];
+
+  const handleEditClick = (id: number) => () => {
+    navigate(`/gcloud/companies/edit/${id}`)
+  }
+
+  const handleDeleteClick = (id: number) => () => {
+    const confirmation = window.confirm("Are you sure you want to delete it?");
+
+    if (confirmation) {
+      deleteCompanyById(id);
+    }
+  }
 
   // const rows = [
   //   { id: 1, lastName: 'K.', firstName: 'Anadolia', age: 35, company: 'frimex'  },
@@ -85,7 +111,7 @@ const CompaniesList: React.FunctionComponent<ICompaniesListProps> = () => {
   return (
     <>
       <Box>
-        <Link to={"/dashboard/companies/add"}>
+        <Link to={"/gcloud/companies/add"}>
           <Button
             sx={{ mt: 2, mb: 2, maxWidth: 180 }}
             fullWidth
