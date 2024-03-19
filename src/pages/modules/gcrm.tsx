@@ -5,10 +5,11 @@ import {
 } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 import GCRM from 'gcrm/GCRM';
+import GCRMHeader from "components/common/header";
 
-interface IModulesListProps { }
+interface IGCRMMainProps { }
 
-const ModulesList: React.FunctionComponent<IModulesListProps> = () => {
+const GCRMMain: React.FunctionComponent<IGCRMMainProps> = () => {
   const navigate = useNavigate()
 
 
@@ -19,4 +20,4 @@ const ModulesList: React.FunctionComponent<IModulesListProps> = () => {
   )
 }
 
-export default ModulesList
+export default GCRMMain

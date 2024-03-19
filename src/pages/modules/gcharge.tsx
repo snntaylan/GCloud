@@ -13,22 +13,7 @@ const GCharge: React.FunctionComponent<IGChargeProps> = () => {
 
   return (
     <Box>
-      <Grid container spacing={2}>
-        {["gCRM", "gHR", "gCharge", "gCloud"].map((x) => (
-          <Grid item xs={6} md={4}>
-            <Card variant="outlined">
-              <CardContent>
-                <Typography variant="h4" color="text.secondary" gutterBottom>
-                  {x}
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button size="small">Select</Button>
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+      GCharge Module Loaded
     </Box>
   )
 }
